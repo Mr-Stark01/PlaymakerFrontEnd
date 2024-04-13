@@ -1,0 +1,4 @@
+numpy
+tqdm
+packaging
+gradio==4.26.0
