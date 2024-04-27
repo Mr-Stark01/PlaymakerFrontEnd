@@ -15,6 +15,7 @@ from modules import cmd_args, errors
 #from modules.paths_internal import script_path, extensions_dir
 from modules.timer import startup_timer
 from modules import logging_config
+from modules import webui
 
 args, _ = cmd_args.parser.parse_known_args()
 logging_config.setup_logging(args.loglevel)
@@ -189,13 +190,7 @@ def prepare_environment():
 
 def start():
     print(f"Launching {'API server' if '--nowebui' in sys.argv else 'Web UI'} with arguments: {' '.join(sys.argv[1:])}")
-    import gradio as gr
-
-    def greet(name):
-        return "Hello " + name + "!"
-
-    demo = gr.Interface(fn=greet, inputs="text", outputs="text")
-    demo.launch()   
+    webui.webui()
 
 
 def dump_sysinfo():

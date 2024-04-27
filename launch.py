@@ -11,11 +11,8 @@ def main():
         exit(0)
 
     launch_utils.startup_timer.record("initial startup")
-    print("asd")
     with launch_utils.startup_timer.subcategory("prepare environment"):
             prepare_environment()
-            print("fldkgalésdf")
-    print("sdfae")
     start()
 
 
