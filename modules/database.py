@@ -22,4 +22,4 @@ def add_user(username, password):
     conn.close()
 
 setup_database()
-add_user('admin', 'password123')
+#add_user('admin', 'password123')

@@ -178,7 +178,6 @@ def prepare_environment():
     if not os.path.isfile(requirements_file):
         requirements_file = os.path.join(script_path, requirements_file)
     if not requirements_met(requirements_file):
-        print("requirements met")
         run_pip(f"install -r \"{requirements_file}\"", "requirements")
         startup_timer.record("install requirements")
 
@@ -189,11 +188,14 @@ def prepare_environment():
 
 def start():
     print(f"Launching {'API server' if '--nowebui' in sys.argv else 'Web UI'} with arguments: {' '.join(sys.argv[1:])}")
-    from modules import auth        
+    from modules import auth 
+    from modules.database import setup_database       
+    setup_database()
     login_interface = auth.create_login_interface()
     login_interface.launch()  
-    #from modules import webui
-    #webui.webui()
+    print("asd")
+    from modules import webui
+    webui.webui()
 
 
 def dump_sysinfo():
