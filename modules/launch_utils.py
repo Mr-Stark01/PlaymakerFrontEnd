@@ -15,7 +15,7 @@ from modules import cmd_args, errors
 #from modules.paths_internal import script_path, extensions_dir
 from modules.timer import startup_timer
 from modules import logging_config
-from modules import webui
+
 
 args, _ = cmd_args.parser.parse_known_args()
 logging_config.setup_logging(args.loglevel)
@@ -59,7 +59,7 @@ and delete current Python and "venv" folder in WebUI's directory.
 
 You can download 3.10 Python from here: https://www.python.org/downloads/release/python-3106/
 
-{"Alternatively, use a binary release of WebUI: https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases/tag/v1.0.0-pre" if is_windows else ""}
+{"Alternatively, use a binary release of WebUI:" if is_windows else ""}
 
 Use --skip-python-version-check to suppress this warning.
 """)
@@ -177,7 +177,6 @@ def prepare_environment():
 
     if not os.path.isfile(requirements_file):
         requirements_file = os.path.join(script_path, requirements_file)
-
     if not requirements_met(requirements_file):
         print("requirements met")
         run_pip(f"install -r \"{requirements_file}\"", "requirements")
@@ -190,7 +189,11 @@ def prepare_environment():
 
 def start():
     print(f"Launching {'API server' if '--nowebui' in sys.argv else 'Web UI'} with arguments: {' '.join(sys.argv[1:])}")
-    webui.webui()
+    from modules import auth        
+    login_interface = auth.create_login_interface()
+    login_interface.launch()  
+    #from modules import webui
+    #webui.webui()
 
 
 def dump_sysinfo():
