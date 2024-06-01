@@ -191,9 +191,8 @@ def start():
     from modules import auth 
     from modules.database import setup_database       
     setup_database()
-    login_interface = auth.create_login_interface()
-    login_interface.launch()  
-    print("asd")
+    #login_interface = auth.create_login_interface()
+    #login_interface.launch()  
     from modules import webui
     webui.webui()
 
