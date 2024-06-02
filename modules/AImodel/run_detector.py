@@ -1,14 +1,12 @@
-
-
 import torch
 import cv2
 import os
 import argparse
 import tqdm
 
-import network.footandball as footandball
-import data.augmentation as augmentations
-from data.augmentation import PLAYER_LABEL, BALL_LABEL
+import modules.AImodel.network.footandball as footandball
+import modules.AImodel.data.augmentation as augmentations
+from modules.AImodel.data.augmentation import PLAYER_LABEL, BALL_LABEL
 
 
 def draw_bboxes(image, detections):
@@ -81,6 +79,7 @@ def run_detector(model: footandball.FootAndBall, args: argparse.Namespace):
     pbar.close()
     sequence.release()
     out_sequence.release()
+    return out_video_path
 
 
 if __name__ == '__main__':

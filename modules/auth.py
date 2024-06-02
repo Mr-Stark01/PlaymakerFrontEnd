@@ -2,7 +2,7 @@ import gradio as gr
 import sqlite3
 import bcrypt
 import pandas as pd
-from launch import switch
+from modules.AImodel import run_detector
 
 def video_identity(video):
     # Simulating some video processing and returning a CSV file
@@ -48,7 +48,7 @@ def create_login_interface():
         
         with gr.Tabs(visible=False) as Interfacetabs:
             with gr.TabItem("Video"):
-                video_interface = gr.Interface(fn=video_identity, inputs="video", outputs="file")
+                video_interface = gr.Interface(fn=run_detector.run_detector, inputs="video", outputs="file")
             with gr.TabItem("Payment"):
                 payment = gr.Textbox(value="asdasd",label="Paypal:")
         with gr.Tabs(visible=True) as loginTabs:
