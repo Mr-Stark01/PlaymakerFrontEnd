@@ -76,7 +76,7 @@ def run_detector(model: footandball.FootAndBall, args: argparse.Namespace):
     out_sequence.release()
     return args.out_video
 
-def callFunc(video_path, weights_path='models/Model1.pth', out_video_path='output_video.avi', device='cpu'):
+def callFunc(video_path, weights_path='modules\AImodel\models\Model1.pth', out_video_path='output_video.avi', device='cpu'):
     args = argparse.Namespace(
         path=video_path,
         model='fb1',

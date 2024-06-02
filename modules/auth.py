@@ -10,11 +10,11 @@ def video_identity(video):
         "Frame": [1, 2, 3],
         "Detail": ["Frame1 Detail", "Frame2 Detail", "Frame3 Detail"]
     }
-    run_detector.callFunc(video)
-    df = pd.DataFrame(data)
-    csv_file = "video_metadata.csv"
-    df.to_csv(csv_file, index=False)
-    return csv_file
+    return run_detector.callFunc(video)
+    #df = pd.DataFrame(data)
+    #csv_file = "video_metadata.csv"
+    #df.to_csv(csv_file, index=False)
+    #return csv_file
 
 def authenticate(username, password):
     conn = sqlite3.connect('users.db')
@@ -50,7 +50,7 @@ def create_login_interface():
         with gr.Tabs(visible=False) as Interfacetabs:
             with gr.TabItem("Video"):
                 #run_detector.run_detector
-                video_interface = gr.Interface(fn=video_identity, inputs="video", outputs="file")
+                video_interface = gr.Interface(fn=video_identity, inputs="video", outputs="video")
             with gr.TabItem("Payment"):
                 payment = gr.Textbox(value="asdasd",label="Paypal:")
         with gr.Tabs(visible=True) as loginTabs:
