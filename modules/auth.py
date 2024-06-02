@@ -10,6 +10,7 @@ def video_identity(video):
         "Frame": [1, 2, 3],
         "Detail": ["Frame1 Detail", "Frame2 Detail", "Frame3 Detail"]
     }
+    run_detector.callFunc(video)
     df = pd.DataFrame(data)
     csv_file = "video_metadata.csv"
     df.to_csv(csv_file, index=False)
@@ -48,7 +49,8 @@ def create_login_interface():
         
         with gr.Tabs(visible=False) as Interfacetabs:
             with gr.TabItem("Video"):
-                video_interface = gr.Interface(fn=run_detector.run_detector, inputs="video", outputs="file")
+                #run_detector.run_detector
+                video_interface = gr.Interface(fn=video_identity, inputs="video", outputs="file")
             with gr.TabItem("Payment"):
                 payment = gr.Textbox(value="asdasd",label="Paypal:")
         with gr.Tabs(visible=True) as loginTabs:

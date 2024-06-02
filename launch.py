@@ -18,7 +18,7 @@ def main():
             prepare_environment()
     from modules import auth
     login = auth.create_login_interface()
-    login.launch()  
+    login.queue().launch()  
     start().launch()
 
 if __name__ == "__main__":
