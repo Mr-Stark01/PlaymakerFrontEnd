@@ -45,7 +45,6 @@ def run_detector(model: footandball.FootAndBall, args: argparse.Namespace):
         state_dict = torch.load(args.weights)
 
     model.load_state_dict(state_dict)
-    # Set model to evaluation mode
     model.eval()
 
     sequence = cv2.VideoCapture(args.path)
@@ -61,14 +60,10 @@ def run_detector(model: footandball.FootAndBall, args: argparse.Namespace):
     while sequence.isOpened():
         ret, frame = sequence.read()
         if not ret:
-            # End of video
             break
 
-        # Convert color space from BGR to RGB, convert to tensor and normalize
         img_tensor = augmentations.numpy2tensor(frame)
-
         with torch.no_grad():
-            # Add dimension for the batch size
             img_tensor = img_tensor.unsqueeze(dim=0).to(args.device)
             detections = model(img_tensor)[0]
 
@@ -79,14 +74,19 @@ def run_detector(model: footandball.FootAndBall, args: argparse.Namespace):
     pbar.close()
     sequence.release()
     out_sequence.release()
-    return out_video_path
+    return args.out_video
 
-def callFunc(video):
- # Train the DeepBall ball detector model
-    parser = argparse.ArgumentParser()
-    args = parser.parse_args()
-    print(type(args))
-    args.path=video
+def callFunc(video_path, weights_path='models/Model1.pth', out_video_path='output_video.avi', device='cpu'):
+    args = argparse.Namespace(
+        path=video_path,
+        model='fb1',
+        weights=weights_path,
+        ball_threshold=0.7,
+        player_threshold=0.7,
+        out_video=out_video_path,
+        device=device
+    )
+
     print('Video path: {}'.format(args.path))
     print('Model: {}'.format(args.model))
     print('Model weights path: {}'.format(args.weights))
@@ -94,7 +94,6 @@ def callFunc(video):
     print('Player confidence detection threshold [0..1]: {}'.format(args.player_threshold))
     print('Output video path: {}'.format(args.out_video))
     print('Device: {}'.format(args.device))
-
     print('')
 
     assert os.path.exists(args.weights), 'Cannot find FootAndBall model weights: {}'.format(args.weights)
@@ -103,11 +102,11 @@ def callFunc(video):
     model = footandball.model_factory(args.model, 'detect', ball_threshold=args.ball_threshold,
                                       player_threshold=args.player_threshold)
 
-    run_detector(model, args)
+    return run_detector(model, args)
+
 if __name__ == '__main__':
     print('Run FootAndBall detector on input video')
 
-    # Train the DeepBall ball detector model
     parser = argparse.ArgumentParser()
     parser.add_argument('--path', help='path to video', type=str, required=True)
     parser.add_argument('--model', help='model name', type=str, default='fb1')
@@ -126,7 +125,6 @@ if __name__ == '__main__':
     print('Player confidence detection threshold [0..1]: {}'.format(args.player_threshold))
     print('Output video path: {}'.format(args.out_video))
     print('Device: {}'.format(args.device))
-
     print('')
 
     assert os.path.exists(args.weights), 'Cannot find FootAndBall model weights: {}'.format(args.weights)
@@ -136,4 +134,3 @@ if __name__ == '__main__':
                                       player_threshold=args.player_threshold)
 
     run_detector(model, args)
-
