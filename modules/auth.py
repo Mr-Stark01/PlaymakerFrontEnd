@@ -46,13 +46,13 @@ def register(username, password):
 def create_login_interface():
     with gr.Blocks() as interface:
         tab_state = gr.Textbox(value="", visible=False)
-        
         with gr.Tabs(visible=False) as Interfacetabs:
             with gr.TabItem("Video"):
                 #run_detector.run_detector
                 video_interface = gr.Interface(fn=video_identity, inputs="video", outputs="video")
             with gr.TabItem("Payment"):
-                payment = gr.Textbox(value="asdasd",label="Paypal:")
+                payment = gr.Textbox(value="paypal.me/dsf39248sdf",label="Paypal:")
+                revo = gr.Image(value="rev.png" ,label="Revolut:")
         with gr.Tabs(visible=True) as loginTabs:
             with gr.TabItem("Login"):
                 username = gr.Textbox(label="Username")
